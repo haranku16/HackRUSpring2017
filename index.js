@@ -7,7 +7,7 @@ var bodyparser = require('body-parser');
 var crypto = require('crypto');
 
 var user = {
-	username:'test_user',
+	username:'test.user@mail.com',
 	password:'test_password',
 	keys:[],
     serialNumbers:{}
@@ -20,8 +20,13 @@ var device = {
 
 app.use(bodyparser.json());
 
+app.get('/', function(req,res) {
+    res.status(200).send('Hello world!');
+});
+
 app.get('/login', function(req,res) {
    var data = req.body;
+    console.log(data);
    if (!data.hasOwnProperty('username')) {
       res.status(400).send('You need a username.');
    }
@@ -39,7 +44,7 @@ app.get('/login', function(req,res) {
          if (err) {
             res.status(404).send('Could not generate secure key.');
          } else {
-            res.send(buffer.toString('hex'));
+            res.status(200).send(buffer.toString('hex'));
          }
       });
    }
@@ -47,6 +52,7 @@ app.get('/login', function(req,res) {
 
 app.post('/device-event',function(req,res) {
    var data = req.body;
+    console.log(data);
    if (!data.hasOwnProperty('serialNumber')) {
       res.status(400).send('Serial number required.');
    }
@@ -60,7 +66,7 @@ app.post('/device-event',function(req,res) {
       res.status(401).send('This private key is incorrect');
    }
    else {
-      res.send('OK');
+      res.status(200).send('OK');
       device.eventLog.push(new Date().getTime());
       console.log('Logged time '+device.eventLog[0]);
    }
@@ -68,6 +74,7 @@ app.post('/device-event',function(req,res) {
 
 app.post('/ownership', function(req,res) {
     var data = req.body;
+    console.log(data);
     if (!data.hasOwnProperty('username')) {
         res.status(400).send('Username required.');
     }
@@ -90,13 +97,14 @@ app.post('/ownership', function(req,res) {
         res.status(401).send('Serial number does not match existing device.');
     }
     else {
-        res.send('OK');
+        res.status(200).send('OK');
         user.serialNumbers[data.serialNumber] = data.type;
     }
 });
 
 app.get('/device-events', function(req,res) {
     var data = req.body;
+    console.log(data);
     if (!data.hasOwnProperty('username')) {
         res.status(400).send('Username required.');
     }
@@ -111,12 +119,12 @@ app.get('/device-events', function(req,res) {
     }
     else {
         var response = {};
-        for (var serialNumber : user.serialNumbers) {
+        for (var serialNumber in user.serialNumbers) {
             if (serialNumber == device.serialNumber) {
                 response[serialNumber] == user.serialNumbers[serialNumber];
             }
         }
-        res.send(response);
+        res.status(200).send(response);
     }
 });
 
