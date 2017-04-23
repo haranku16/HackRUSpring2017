@@ -9,7 +9,7 @@ var crypto = require('crypto');
 var user = {
 	username:'test.user@mail.com',
 	password:'test_password',
-	keys:[],
+	keys:{},
     serialNumbers:{}
 };
 var device = {
@@ -46,6 +46,7 @@ app.post('/login', function(req,res) {
             res.status(404).send('Could not generate secure key.');
          } else {
             res.status(200).send(buffer.toString('hex'));
+            user.keys[buffer.toString('hex')] = true;
          }
       });
    }
@@ -69,6 +70,7 @@ app.post('/device-event',function(req,res) {
    else {
       res.status(200).send('OK');
       device.eventLog.push(new Date().getTime());
+      console.log(device.eventLog)
       console.log('Logged time '+device.eventLog[0]);
    }
 });
@@ -91,7 +93,7 @@ app.post('/ownership', function(req,res) {
     else if (data.username != user.username) {
         res.status(401).send('Username is not registered.');
     }
-    else if (data.privateKey != user.privateKey) {
+    else if (!user.keys.hasOwnProperty(data.privateKey)) {
         res.status(401).send('This private key is incorrect.');
     }
     else if (data.serialNumber != device.serialNumber) {
@@ -115,7 +117,7 @@ app.get('/device-events', function(req,res) {
     else if (data.username != user.username) {
         res.status(401).send('Username is not registered.');
     }
-    else if (data.privateKey != user.privateKey) {
+    else if (!user.keys.hasOwnProperty(data.privateKey)) {
         res.status(401).send('This private key is incorrect.');
     }
     else {
