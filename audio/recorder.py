@@ -41,7 +41,7 @@ def makeJson():
 def sSend():
 	conn = httplib.HTTPConnection('adapter.cs.rutgers.edu:3000')
 	print 'Sending:',makeJson()
-	conn.request('POST','/device-event',makeJson())
+	conn.request('POST','/device-event',makeJson(),{'Content-Type':'application/json'})
 	res = conn.getresponse()
 	print(res.status)
 	print('Sent message to server, got response status:',res)
