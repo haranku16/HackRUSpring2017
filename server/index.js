@@ -21,6 +21,7 @@ var device = {
 app.use(bodyparser.json());
 
 app.get('/', function(req,res) {
+    console.log('Hello world!');
     res.status(200).send('Hello world!');
 });
 
@@ -52,12 +53,12 @@ app.get('/login', function(req,res) {
 
 app.post('/device-event',function(req,res) {
    var data = req.body;
-    console.log(data);
+   console.log(data);
    if (!data.hasOwnProperty('serialNumber')) {
       res.status(400).send('Serial number required.');
    }
    else if (!data.hasOwnProperty('privateKey')) {
-      res.status(400).send('Password required.');
+      res.status(400).send('Private key required.');
    }
    else if (data.serialNumber != device.serialNumber) {
       res.status(401).send('This serial number is not registered');
