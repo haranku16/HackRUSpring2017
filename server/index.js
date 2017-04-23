@@ -25,7 +25,7 @@ app.get('/', function(req,res) {
     res.status(200).send('Hello world!');
 });
 
-app.get('/login', function(req,res) {
+app.post('/login', function(req,res) {
    var data = req.body;
     console.log(data);
    if (!data.hasOwnProperty('username')) {
