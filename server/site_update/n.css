@@ -1,0 +1,21 @@
+body{
+	background-image:	url("images/backgroundImage.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+table {
+    border-spacing: 5px;
+}
+
+th, td {
+    padding: 15px;
+}
+
+th {
+    text-align: left;
+}
+
+#title{
+	text-align:center;
+}

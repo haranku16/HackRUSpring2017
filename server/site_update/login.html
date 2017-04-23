@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+	<head>
+		<meta charset = "UTF-8"/>
+		<title>Login</title>
+		<link rel = "stylesheet" href = "main.css">
+	</head>
+
+	
+	
+	<body>
+		<div id = "login">
+			<form action = "next.html">
+				<h2 id = "signin">Sign In</h2>
+				<input type = "text" id = "username" placeholder = "Enter Username"/>
+				<input type = "password" id = "password" placeholder = "Enter Password"/>
+				<Button id = "login-btn" type = "submit">
+					Log In
+				</Button>
+				<script>
+				var x = document
+					.getElementById('login-btn')
+					.addEventListener('click', function(event){
+						console.log(this.form[0]);
+					});
+					
+				
+					
+				</script>
+				
+			</form>
+		</div>
+	</body>
+
+</html>
